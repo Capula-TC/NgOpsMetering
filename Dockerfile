@@ -1,10 +1,16 @@
 FROM python:3
 
-ADD subPubNG.py /
+ENV endpoint=''
+ENV root-cert=''
+ENV cert=''
+ENV key=''
 
-RUN pip install awsiotsdk
+ADD pahosubPubNG.py /
+ADD requirements.txt /
+
+RUN pip install -r requirements.txt
 
 EXPOSE 1883
 EXPOSE 8883
 
-CMD ["-c"]
+CMD ["sh","-c","python3 ./pahosubPubNG.py --range-start 0 --range-end 9 --endpoint ${endpoint} --root-ca ${root-cert} --cert ${cert} --key ${key}"]
